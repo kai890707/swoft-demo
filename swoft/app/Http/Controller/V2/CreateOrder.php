@@ -8,18 +8,18 @@
  * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
  */
 
-namespace App\Http\Controller;
+namespace App\Http\Controller\V2;
 
 use App\Model\Data\GoodsData;
 use Swoft;
 use Swoft\Http\Message\ContentType;
 use Swoft\Http\Message\Response;
+use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
-use Throwable;
-use function bean;
+use App\Anser\Orchestrators\V2\CreateOrderOrchestrator;
 use function context;
-use Swoft\Co;
+
 /**
  * Class CreateOrder
  * @Controller()
@@ -28,14 +28,21 @@ class CreateOrder
 {
     /**
      * @RequestMapping("createOrder")
-     * @throws Throwable
+     *
+     * @return Response
      */
-    public function index(): Response
+    public function createOrder(Request $request): Response
     {
-        // Co::create(function () {
-        return context()->getResponse()->withContent('你好');
-        // });
+        $data = json_decode($request->raw());
+        $memberKey = $data->memberKey;
+        $products = $data->products;
 
-        // return Co::multi($requests);
+        $createOrder = new CreateOrderOrchestrator();
+
+		$data = $createOrder->build($products, $memberKey);
+		$result = $data ?? ["order_key" => $createOrder->orderKey];
+
+        return context()->getResponse()->withContent(json_encode($result));
     }
+
 }
