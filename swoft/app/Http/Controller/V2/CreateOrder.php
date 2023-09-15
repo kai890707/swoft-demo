@@ -19,6 +19,7 @@ use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
 use App\Anser\Orchestrators\V2\CreateOrderOrchestrator;
 use function context;
+use Swoft\Log\Helper\Log;
 
 /**
  * Class CreateOrder
@@ -41,8 +42,8 @@ class CreateOrder
 
 		$data = $createOrder->build($products, $memberKey);
 		$result = $data ?? ["order_key" => $createOrder->orderKey];
-
-        return context()->getResponse()->withContent(json_encode($result));
+        Log::info(json_encode($result));
+        return context()->getResponse()->withContentType(ContentType::JSON)->withContent(json_encode($result));
     }
 
 }
