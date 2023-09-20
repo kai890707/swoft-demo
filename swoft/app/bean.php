@@ -53,7 +53,7 @@ return [
         'setting'  => [
             'task_worker_num'       => 12,
             'task_enable_coroutine' => true,
-            'worker_num'            => 6,
+            'worker_num'            => 16,
             // static handle
             // 'enable_static_handler'    => true,
             // 'document_root'            => dirname(__DIR__) . '/public',

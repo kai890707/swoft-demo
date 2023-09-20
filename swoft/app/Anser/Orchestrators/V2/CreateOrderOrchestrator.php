@@ -87,20 +87,9 @@ class CreateOrderOrchestrator extends Orchestrator
         $this->userKey = $userKey;
         $inventory     = $this->inventory;
 
-        $str = "QWERTYUIOPASDFGHJKLZXCVBNM1234567890qwertyuiopasdfghjklzxcvbnm";
-
-        str_shuffle($str);
-
-        $randomStr = substr(str_shuffle($str), 0, strlen($str) - 1);
-
         $productActions = &$this->productActions;
 
-        $this->orderKey = $orderKey =  sha1(
-            serialize($products) .
-            $userKey .
-            uniqid("", true) .
-            $randomStr
-        );
+        $this->orderKey = $orderKey = session_create_id();
 
         $step1 = $this->setStep();
 

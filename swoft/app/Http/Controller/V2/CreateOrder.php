@@ -41,9 +41,10 @@ class CreateOrder
         $createOrder = new CreateOrderOrchestrator();
 
 		$data = $createOrder->build($products, $memberKey);
-		$result = $data ?? ["order_key" => $createOrder->orderKey];
-        Log::info(json_encode($result));
-        return context()->getResponse()->withContentType(ContentType::JSON)->withContent(json_encode($result));
+	    $result = $data ?? ["order_key" => $createOrder->orderKey];
+	    Log::info(json_encode($result));
+
+        return context()->getResponse()->withContentType(ContentType::HTML)->withContent(json_encode($result));
     }
 
 }
